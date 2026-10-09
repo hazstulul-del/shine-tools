@@ -368,6 +368,22 @@ export const Settings: React.FC = () => {
             <div className="text-[10px] text-slate-400 mt-0.5">Waktu jalan tanpa restart</div>
           </div>
 
+          {/* Total User */}
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold text-slate-400 uppercase">
+                TOTAL USER
+              </span>
+              <span className="text-purple-500">👥</span>
+            </div>
+            <div className="text-sm sm:text-base font-black text-slate-800 mt-1">
+              1,245 User
+            </div>
+            <div className="text-[10px] text-slate-400 mt-0.5">
+              Pengguna terdaftar
+            </div>
+          </div>
+
           {/* Local Storage Used */}
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
             <div className="flex items-center justify-between">
