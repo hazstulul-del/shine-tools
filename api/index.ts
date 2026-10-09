@@ -1,8 +1,15 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 import os from 'os';
+import fs from 'fs';
+import path from 'path';
 
 const app = express();
+nconst visitorFile = path.join(process.cwd(), 'visitors.json');
+function getClientIP(req: Request) {  return req.headers['x-forwarded-for']?.toString().split(',')[0] || req.socket.remoteAddress || 'unknown';}
+function saveVisitor(ip: string) {  let visitors: string[] = [];  if (fs.existsSync(visitorFile)) visitors = JSON.parse(fs.readFileSync(visitorFile, 'utf8'));    visitors.push(ip);    fs.writeFileSync(visitorFile, JSON.stringify(visitors, null, 2));  }  return visitors.length;}
+app.post('/api/visitor', (req: Request, res: Response) => {  const totalUsers = saveVisitor(getClientIP(req));  res.json({ success:true, totalUsers });});
+app.get('/api/users/count', (_req: Request, res: Response) => {  let totalUsers = 0;  if (fs.existsSync(visitorFile)) {    totalUsers = JSON.parse(fs.readFileSync(visitorFile, 'utf8')).length;  }  res.json({ totalUsers });});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
