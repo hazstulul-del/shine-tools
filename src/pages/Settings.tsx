@@ -36,6 +36,7 @@ export const Settings: React.FC = () => {
 
   // Storage metrics
   const [storageBytes, setStorageBytes] = useState<number>(0);
+  const [totalUsers, setTotalUsers] = useState(0);
   const [storageItemsCount, setStorageItemsCount] = useState<number>(0);
 
   // App Settings with localStorage persistence
@@ -121,6 +122,7 @@ export const Settings: React.FC = () => {
   useEffect(() => {
     checkLiveServer();
     calculateStorage();
+fetch('/api/users/count')      .then(res => res.json())      .then(data => setTotalUsers(data.totalUsers || 0))      .catch(() => setTotalUsers(0));
   }, []);
 
   const showToast = (msg: string) => {
@@ -183,6 +185,7 @@ export const Settings: React.FC = () => {
     setSavedEmail(val);
     localStorage.setItem('shine_last_email', val.trim());
     calculateStorage();
+fetch('/api/users/count')      .then(res => res.json())      .then(data => setTotalUsers(data.totalUsers || 0))      .catch(() => setTotalUsers(0));
   };
 
   const handleAutoOpenEmailToggle = (val: boolean) => {
@@ -249,6 +252,7 @@ export const Settings: React.FC = () => {
 
     setSavedEmail('');
     calculateStorage();
+fetch('/api/users/count')      .then(res => res.json())      .then(data => setTotalUsers(data.totalUsers || 0))      .catch(() => setTotalUsers(0));
     showToast('🧹 Cache & data formulir berhasil dibersihkan!');
   };
 
@@ -264,6 +268,7 @@ export const Settings: React.FC = () => {
     setSoundEnabled(true);
     setAccentColor('blue');
     calculateStorage();
+fetch('/api/users/count')      .then(res => res.json())      .then(data => setTotalUsers(data.totalUsers || 0))      .catch(() => setTotalUsers(0));
     showToast('🔄 Semua pengaturan telah di-reset ke standar pabrik.');
   };
 
@@ -377,7 +382,7 @@ export const Settings: React.FC = () => {
               <span className="text-purple-500">👥</span>
             </div>
             <div className="text-sm sm:text-base font-black text-slate-800 mt-1">
-              1,245 User
+              {totalUsers.toLocaleString()} User
             </div>
             <div className="text-[10px] text-slate-400 mt-0.5">
               Pengguna terdaftar
